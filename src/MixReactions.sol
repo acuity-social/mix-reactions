@@ -74,11 +74,11 @@ contract MixReactions {
                 reactions &= ~(bytes32(bytes4(uint32(-1))) >> shift);
                 // Store the reactions slot back in state.
                 itemAccountReactions[itemId][msg.sender] = reactions;
+                // Log the removal of the reaction.
+                emit RemoveReaction(itemId, msg.sender, reaction);
                 break;
             }
         }
-        // Log the removal of the reaction.
-        emit RemoveReaction(itemId, msg.sender, reaction);
     }
 
     function getReactionsByAccount(address account, bytes32 itemId) public view returns (bytes32) {
