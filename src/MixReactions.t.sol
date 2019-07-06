@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.9;
 
 import "ds-test/test.sol";
 import "mix-trusted-accounts/TrustedAccounts.sol";
