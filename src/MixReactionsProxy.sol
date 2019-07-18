@@ -3,18 +3,10 @@ pragma solidity ^0.5.10;
 import "./MixReactions.sol";
 
 
-/**
- * @title MixReactionsProxy
- * @author Jonathan Brown <jbrown@mix-blockchain.org>
- * @dev Proxy contract for accessing a MixReactions contract from a different address for testing purposes.
- */
 contract MixReactionsProxy {
 
     MixReactions mixReactions;
 
-    /**
-     * @param _mixReactions Real MixReactions contract to proxy to.
-     */
     constructor (MixReactions _mixReactions) public {
         mixReactions = _mixReactions;
     }

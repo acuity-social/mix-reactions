@@ -3,6 +3,11 @@ pragma solidity ^0.5.10;
 import "mix-trusted-accounts/TrustedAccounts.sol";
 
 
+/**
+ * @title MixReactions
+ * @author Jonathan Brown <jbrown@mix-blockchain.org>
+ * @dev Enables users to react with emojis to content items.
+ */
 contract MixReactions {
 
     /**
