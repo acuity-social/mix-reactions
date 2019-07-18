@@ -1,6 +1,6 @@
 pragma solidity ^0.5.10;
 
-import "mix-trusted-accounts/TrustedAccounts.sol";
+import "mix-trusted-accounts/MixTrustedAccounts.sol";
 
 
 /**
@@ -32,15 +32,15 @@ contract MixReactions {
      event RemoveReaction(bytes32 indexed itemId, address indexed account, bytes4 reaction);
 
     /**
-     * @dev TrustedAccounts contract.
+     * @dev MixTrustedAccounts contract.
      */
-    TrustedAccounts public trustedAccounts;
+    MixTrustedAccounts public trustedAccounts;
 
     /**
-     * @param _trustedAccounts Address of the TrustedAccounts contract.
+     * @param _trustedAccounts Address of the MixTrustedAccounts contract.
      */
-    constructor(TrustedAccounts _trustedAccounts) public {
-        // Store the address of the TrustedAccounts contract.
+    constructor(MixTrustedAccounts _trustedAccounts) public {
+        // Store the address of the MixTrustedAccounts contract.
         trustedAccounts = _trustedAccounts;
     }
 

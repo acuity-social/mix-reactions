@@ -1,7 +1,7 @@
 pragma solidity ^0.5.10;
 
 import "ds-test/test.sol";
-import "mix-trusted-accounts/TrustedAccounts.sol";
+import "mix-trusted-accounts/MixTrustedAccounts.sol";
 
 import "./MixReactions.sol";
 import "./MixReactionsProxy.sol";
@@ -9,12 +9,12 @@ import "./MixReactionsProxy.sol";
 
 contract MixReactionsTest is DSTest {
 
-    TrustedAccounts trustedAccounts;
+    MixTrustedAccounts mixTrustedAccounts;
     MixReactions mixReactions;
 
     function setUp() public {
-        trustedAccounts = new TrustedAccounts();
-        mixReactions = new MixReactions(trustedAccounts);
+        mixTrustedAccounts = new MixTrustedAccounts();
+        mixReactions = new MixReactions(mixTrustedAccounts);
     }
 
     function testControlReactTooMuch() public {
@@ -160,16 +160,16 @@ contract MixReactionsTest is DSTest {
         assertEq(itemReactionAccounts.length, 0);
         assertEq(itemReactions.length, 0);
 
-        trustedAccounts.trustAccount(address(account0));
-        trustedAccounts.trustAccount(address(account1));
-        trustedAccounts.trustAccount(address(account2));
-        trustedAccounts.trustAccount(address(account3));
-        trustedAccounts.trustAccount(address(account4));
-        trustedAccounts.trustAccount(address(account5));
-        trustedAccounts.trustAccount(address(account6));
-        trustedAccounts.trustAccount(address(account7));
-        trustedAccounts.trustAccount(address(account8));
-        trustedAccounts.trustAccount(address(account9));
+        mixTrustedAccounts.trustAccount(address(account0));
+        mixTrustedAccounts.trustAccount(address(account1));
+        mixTrustedAccounts.trustAccount(address(account2));
+        mixTrustedAccounts.trustAccount(address(account3));
+        mixTrustedAccounts.trustAccount(address(account4));
+        mixTrustedAccounts.trustAccount(address(account5));
+        mixTrustedAccounts.trustAccount(address(account6));
+        mixTrustedAccounts.trustAccount(address(account7));
+        mixTrustedAccounts.trustAccount(address(account8));
+        mixTrustedAccounts.trustAccount(address(account9));
 
         (itemReactionAccounts, itemReactions) = mixReactions.getTrustedReactions(hex"01");
         assertEq(itemReactionAccounts.length, 0);
@@ -288,9 +288,9 @@ contract MixReactionsTest is DSTest {
         assertEq(itemReactionAccounts[9], address(account9));
         assertEq(itemReactions[9], hex"03");
 
-        trustedAccounts.untrustAccount(address(account3));
-        trustedAccounts.untrustAccount(address(account5));
-        trustedAccounts.untrustAccount(address(account9));
+        mixTrustedAccounts.untrustAccount(address(account3));
+        mixTrustedAccounts.untrustAccount(address(account5));
+        mixTrustedAccounts.untrustAccount(address(account9));
         (itemReactionAccounts, itemReactions) = mixReactions.getTrustedReactions(hex"01");
         assertEq(itemReactionAccounts.length, 7);
         assertEq(itemReactions.length, 7);
