@@ -60,10 +60,8 @@ contract MixReactions {
                 return;
             }
         }
-        // If the reaction was not addded there was no space for it.
-        if (!added) {
-            revert();
-        }
+        // Revert if there was not enough space to add the reaction.
+        require (added, "No space to add reaction to item.");
         // Store the reactions slot back in state.
         itemAccountReactions[itemId][msg.sender] = reactions;
         // Log the adding of reaction.
