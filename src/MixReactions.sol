@@ -1,5 +1,7 @@
 pragma solidity ^0.5.10;
 
+import "mix-item-store/MixItemStoreInterface.sol";
+import "mix-item-store/MixItemStoreRegistry.sol";
 import "mix-trusted-accounts/MixTrustedAccounts.sol";
 
 
@@ -18,28 +20,38 @@ contract MixReactions {
     /**
      * @dev A reaction has been added to an item.
      * @param itemId Item having a reaction added.
-     * @param account Account adding the reaction.
+     * @param itemOwner Owner of item having a reaction added.
+     * @param reactor Account adding the reaction.
      * @param reaction Reaction being added.
      */
-    event AddReaction(bytes32 indexed itemId, address indexed account, bytes4 reaction);
+    event AddReaction(bytes32 indexed itemId, address indexed itemOwner, address indexed reactor, bytes4 reaction);
 
     /**
      * @dev A reaction has been removed from an item.
      * @param itemId Item having a reaction removed.
-     * @param account Account removing the reaction.
+     * @param itemOwner Owner of item having a reaction removed.
+     * @param reactor Account removing the reaction.
      * @param reaction Reaction being removed.
      */
-     event RemoveReaction(bytes32 indexed itemId, address indexed account, bytes4 reaction);
+     event RemoveReaction(bytes32 indexed itemId, address indexed itemOwner, address indexed reactor, bytes4 reaction);
 
-    /**
-     * @dev MixTrustedAccounts contract.
-     */
-    MixTrustedAccounts public trustedAccounts;
+     /**
+      * @dev MixItemStoreRegistry contract.
+      */
+     MixItemStoreRegistry public itemStoreRegistry;
 
-    /**
-     * @param _trustedAccounts Address of the MixTrustedAccounts contract.
-     */
-    constructor(MixTrustedAccounts _trustedAccounts) public {
+     /**
+      * @dev MixTrustedAccounts contract.
+      */
+     MixTrustedAccounts public trustedAccounts;
+
+     /**
+      * @param _itemStoreRegistry Address of the MixItemStoreRegistry contract.
+      * @param _trustedAccounts Address of the MixTrustedAccounts contract.
+      */
+     constructor(MixItemStoreRegistry _itemStoreRegistry, MixTrustedAccounts _trustedAccounts) public {
+         // Store the address of the MixItemStoreRegistry contract.
+         itemStoreRegistry = _itemStoreRegistry;
         // Store the address of the MixTrustedAccounts contract.
         trustedAccounts = _trustedAccounts;
     }
@@ -65,7 +77,8 @@ contract MixReactions {
         // Store the reactions slot back in state.
         itemAccountReactions[itemId][msg.sender] = reactions;
         // Log the adding of reaction.
-        emit AddReaction(itemId, msg.sender, reaction);
+        address owner = itemStoreRegistry.getItemStore(itemId).getOwner(itemId);
+        emit AddReaction(itemId, owner, msg.sender, reaction);
     }
 
     function removeReaction(bytes32 itemId, bytes4 reaction) external {
@@ -78,7 +91,8 @@ contract MixReactions {
                 // Store the reactions slot back in state.
                 itemAccountReactions[itemId][msg.sender] = reactions;
                 // Log the removal of the reaction.
-                emit RemoveReaction(itemId, msg.sender, reaction);
+                address owner = itemStoreRegistry.getItemStore(itemId).getOwner(itemId);
+                emit RemoveReaction(itemId, owner, msg.sender, reaction);
                 break;
             }
         }
