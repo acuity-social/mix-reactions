@@ -4,3 +4,6 @@
 [submodule "lib/mix-trusted-accounts"]
 	path = lib/mix-trusted-accounts
 	url = https://github.com/mix-blockchain/mix-trusted-accounts
+[submodule "lib/mix-item-store"]
+	path = lib/mix-item-store
+	url = https://github.com/mix-blockchain/mix-item-store
